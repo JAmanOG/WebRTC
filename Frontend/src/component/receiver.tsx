@@ -25,7 +25,12 @@ function Receiver() {
         // Handle ICE candidates
         pc.onicecandidate = (event) => {
           if (event.candidate) {
-            socket.send(JSON.stringify({ type: "iceCandidate", candidate: event.candidate }));
+            socket.send(
+              JSON.stringify({
+                type: "iceCandidate",
+                candidate: event.candidate,
+              })
+            );
           }
         };
 
@@ -42,10 +47,12 @@ function Receiver() {
         await pc.setLocalDescription(answer);
 
         // Send the answer back to the sender
-        socket.send(JSON.stringify({ type: "createAnswer", sdp: pc.localDescription }));
+        socket.send(
+          JSON.stringify({ type: "createAnswer", sdp: pc.localDescription })
+        );
       } else if (message.type === "iceCandidate" && pc) {
-        pc.addIceCandidate(new RTCIceCandidate(message.candidate)).catch((error) =>
-          console.error("Error adding ICE candidate:", error)
+        pc.addIceCandidate(new RTCIceCandidate(message.candidate)).catch(
+          (error) => console.error("Error adding ICE candidate:", error)
         );
       }
     };
@@ -59,7 +66,11 @@ function Receiver() {
   return (
     <div>
       <h2>Receiver</h2>
-      <video ref={videoRef} autoPlay style={{ width: "100%", height: "auto" }} />
+      <video
+        ref={videoRef}
+        autoPlay
+        style={{ width: "100%", height: "auto" }}
+      />
     </div>
   );
 }

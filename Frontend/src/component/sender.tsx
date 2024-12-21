@@ -47,8 +47,11 @@ function sender() {
       if (event.candidate) {
         socket.send(JSON.stringify({ type: "iceCandidate", candidate: event.candidate }));
       }
+      //for screen sharing
+      // const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
     }
-    const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+    //for camera and audio
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     if (localVideoRef.current) {
       localVideoRef.current.srcObject = stream;
     }
